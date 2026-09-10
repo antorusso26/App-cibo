@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Cosa Cucino? — ricette con quello che hai</title>
+  <meta name="theme-color" content="#FF6B4A" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍳</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-logo" aria-hidden="true">🍳</span>
+      <div>
+        <h1>Cosa Cucino?</h1>
+        <p>Dimmi cosa hai, ti dico cosa mangi.</p>
+      </div>
+    </div>
+    <nav class="stepper" aria-label="Passaggi">
+      <button class="step-btn active" data-step="cucina"><span>1</span> Cucina</button>
+      <button class="step-btn" data-step="dispensa"><span>2</span> Dispensa</button>
+      <button class="step-btn" data-step="ricette"><span>3</span> Ricette</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- STEP 1: CUCINA -->
+    <section id="step-cucina" class="step active">
+      <div class="step-intro">
+        <h2>Benvenuto nella tua cucina 👋</h2>
+        <p>Tocca gli strumenti che hai. Il frigo ti porta alla dispensa.</p>
+      </div>
+
+      <div class="kitchen-wrap">
+        <div class="speech" id="speech">Ciao! Cosa usi per cucinare? 👨‍🍳</div>
+        <svg class="kitchen" viewBox="0 0 800 460" role="group" aria-label="Cucina illustrata: tocca gli strumenti">
+          <defs>
+            <pattern id="tiles" width="30" height="30" patternUnits="userSpaceOnUse">
+              <rect width="30" height="30" fill="#FFFDF7" />
+              <path d="M30 0H0V30" fill="none" stroke="#F1DFC8" stroke-width="2" />
+            </pattern>
+            <pattern id="floor" width="60" height="60" patternUnits="userSpaceOnUse">
+              <rect width="60" height="60" fill="#E8C7A0" />
+              <rect width="30" height="30" fill="#DDB58A" />
+              <rect x="30" y="30" width="30" height="30" fill="#DDB58A" />
+            </pattern>
+            <radialGradient id="ovenGlow" cx="50%" cy="60%" r="70%">
+              <stop offset="0%" stop-color="#FFD166" />
+              <stop offset="100%" stop-color="#FF6B4A" />
+            </radialGradient>
+          </defs>
+
+          <!-- Muro, piastrelle, pavimento -->
+          <rect width="800" height="460" fill="#FDEBD3" />
+          <rect x="20" y="150" width="595" height="110" fill="url(#tiles)" />
+          <rect y="410" width="800" height="50" fill="url(#floor)" />
+
+          <!-- Finestra con piantina -->
+          <g class="decor">
+            <rect x="250" y="34" width="150" height="100" rx="8" fill="#BDE7F5" stroke="#FFFFFF" stroke-width="8" />
+            <line x1="325" y1="34" x2="325" y2="134" stroke="#FFFFFF" stroke-width="6" />
+            <circle cx="290" cy="70" r="14" fill="#FFF3B0" opacity=".9" />
+            <path d="M262 134h126" stroke="#E0A96D" stroke-width="8" stroke-linecap="round" />
+            <rect x="352" y="112" width="26" height="20" rx="4" fill="#E76F51" />
+            <path d="M365 112c-10-14-16-22-8-30 4 8 6 14 8 30zm0 0c10-14 16-22 8-30-4 8-6 14-8 30z" fill="#3BAA6E" />
+          </g>
+
+          <!-- Cappa -->
+          <g class="decor">
+            <path d="M100 20h120l18 90H82z" fill="#D9D4CC" />
+            <rect x="78" y="106" width="164" height="12" rx="4" fill="#C4BDB2" />
+            <rect x="140" y="0" width="40" height="22" fill="#D9D4CC" />
+          </g>
+
+          <!-- Mensola -->
+          <rect x="420" y="138" width="180" height="9" rx="3" fill="#C98B55" />
+
+          <!-- Piano di lavoro e mobili -->
+          <rect x="15" y="258" width="600" height="16" rx="4" fill="#B5835A" />
+          <rect x="20" y="274" width="590" height="136" fill="#7FB7A4" />
+          <g fill="none" stroke="#6AA391" stroke-width="3">
+            <rect x="250" y="284" width="110" height="116" rx="6" />
+            <rect x="370" y="284" width="110" height="116" rx="6" />
+            <rect x="490" y="284" width="110" height="116" rx="6" />
+            <rect x="28" y="284" width="30" height="116" rx="6" />
+          </g>
+          <g fill="#F7E6CF">
+            <rect x="296" y="296" width="18" height="6" rx="3" />
+            <rect x="416" y="296" width="18" height="6" rx="3" />
+            <rect x="536" y="296" width="18" height="6" rx="3" />
+          </g>
+
+          <!-- FORNO -->
+          <g class="tool" data-tool="forno" tabindex="0" role="button" aria-label="Forno">
+            <title>Forno</title>
+            <rect x="66" y="280" width="176" height="124" rx="8" fill="#4A4E69" />
+            <rect x="80" y="304" width="148" height="10" rx="5" fill="#C9CCD5" />
+            <rect class="oven-window" x="88" y="324" width="132" height="66" rx="8" fill="#22223B" />
+            <g class="oven-inside">
+              <rect x="112" y="360" width="84" height="8" rx="3" fill="#8D5B3E" />
+              <path d="M124 360c4-18 56-18 60 0z" fill="#F4A259" />
+            </g>
+            <g class="check" transform="translate(232 288)"><circle r="14" /><path d="M-6 0l4 5 8-9" /></g>
+          </g>
+
+          <!-- FORNELLI -->
+          <g class="tool" data-tool="fornelli" tabindex="0" role="button" aria-label="Fornelli">
+            <title>Fornelli</title>
+            <rect x="64" y="250" width="180" height="12" rx="4" fill="#2B2D42" />
+            <g class="flames">
+              <path class="flame" d="M104 250c-8-8-2-16 4-20 0 8 6 8 6 14 0 4-4 6-10 6z" />
+              <path class="flame" d="M122 250c-6-6 0-14 4-16 0 6 6 8 4 12-1 3-4 4-8 4z" />
+              <path class="flame" d="M186 250c-8-8-2-16 4-20 0 8 6 8 6 14 0 4-4 6-10 6z" />
+              <path class="flame" d="M204 250c-6-6 0-14 4-16 0 6 6 8 4 12-1 3-4 4-8 4z" />
+            </g>
+            <g fill="#EDF2F4" stroke="#2B2D42" stroke-width="2">
+              <circle cx="96" cy="290" r="6" /><circle cx="122" cy="290" r="6" />
+              <circle cx="186" cy="290" r="6" /><circle cx="212" cy="290" r="6" />
+            </g>
+            <g class="check" transform="translate(52 246)"><circle r="14" /><path d="M-6 0l4 5 8-9" /></g>
+          </g>
+
+          <!-- PENTOLA -->
+          <g class="tool" data-tool="pentola" tabindex="0" role="button" aria-label="Pentola">
+            <title>Pentola</title>
+            <g class="steam">
+              <path d="M100 176c-6-8 6-12 0-20" /><path d="M114 172c-6-8 6-12 0-20" /><path d="M128 176c-6-8 6-12 0-20" />
+            </g>
+            <rect x="72" y="198" width="84" height="52" rx="8" fill="#E63946" />
+            <rect x="62" y="206" width="14" height="8" rx="4" fill="#9D0208" />
+            <rect x="152" y="206" width="14" height="8" rx="4" fill="#9D0208" />
+            <path d="M68 198c0-12 92-12 92 0z" fill="#C1121F" />
+            <rect x="106" y="178" width="16" height="8" rx="4" fill="#9D0208" />
+            <rect x="80" y="222" width="68" height="6" rx="3" fill="#FFFFFF" opacity=".35" />
+            <g class="check" transform="translate(150 184)"><circle r="14" /><path d="M-6 0l4 5 8-9" /></g>
+          </g>
+
+          <!-- PADELLA -->
+          <g class="tool" data-tool="padella" tabindex="0" role="button" aria-label="Padella">
+            <title>Padella</title>
+            <path d="M166 234h72l-6 14c-1 2-3 2-4 2h-52c-1 0-3 0-4-2z" fill="#3D405B" />
+            <rect x="236" y="234" width="46" height="8" rx="4" fill="#8D5B3E" transform="rotate(-10 236 238)" />
+            <g class="egg">
+              <ellipse cx="202" cy="232" rx="24" ry="5" fill="#FFFFFF" />
+              <circle cx="202" cy="230" r="6" fill="#FFB703" />
+            </g>
+            <g class="check" transform="translate(268 216)"><circle r="14" /><path d="M-6 0l4 5 8-9" /></g>
+          </g>
+
+          <!-- FRIGGITRICE AD ARIA -->
+          <g class="tool" data-tool="friggitrice" tabindex="0" role="button" aria-label="Friggitrice ad aria">
+            <title>Friggitrice ad aria</title>
+            <rect x="290" y="178" width="66" height="80" rx="20" fill="#2B2D42" />
+            <rect x="298" y="212" width="50" height="40" rx="10" fill="#3D405B" />
+            <rect x="312" y="218" width="22" height="6" rx="3" fill="#8D99AE" />
+            <circle cx="323" cy="195" r="9" fill="#8D99AE" />
+            <circle class="led" cx="323" cy="195" r="4" fill="#EF476F" />
+            <g class="check" transform="translate(352 180)"><circle r="14" /><path d="M-6 0l4 5 8-9" /></g>
+          </g>
+
+          <!-- FRULLATORE -->
+          <g class="tool" data-tool="frullatore" tabindex="0" role="button" aria-label="Frullatore">
+            <title>Frullatore</title>
+            <g class="blender-jar">
+              <path d="M370 164h50l-8 64h-34z" fill="#CDEFF7" stroke="#8ECAE6" stroke-width="3" />
+              <path class="smoothie" d="M375 200h40l-4 28h-32z" fill="#FF8FAB" />
+              <rect x="366" y="156" width="58" height="10" rx="4" fill="#219EBC" />
+            </g>
+            <rect x="366" y="228" width="58" height="30" rx="8" fill="#219EBC" />
+            <circle cx="395" cy="243" r="6" fill="#FFFFFF" />
+            <g class="check" transform="translate(424 156)"><circle r="14" /><path d="M-6 0l4 5 8-9" /></g>
+          </g>
+
+          <!-- TOSTAPANE -->
+          <g class="tool" data-tool="tostapane" tabindex="0" role="button" aria-label="Tostapane">
+            <title>Tostapane</title>
+            <g class="toast-slices">
+              <rect x="478" y="194" width="26" height="30" rx="8" fill="#E9C46A" stroke="#C68B3F" stroke-width="3" />
+              <rect x="514" y="194" width="26" height="30" rx="8" fill="#E9C46A" stroke="#C68B3F" stroke-width="3" />
+            </g>
+            <rect x="464" y="210" width="92" height="48" rx="16" fill="#F4A261" />
+            <rect x="476" y="210" width="30" height="6" rx="3" fill="#8D5B3E" />
+            <rect x="512" y="210" width="30" height="6" rx="3" fill="#8D5B3E" />
+            <rect x="552" y="226" width="10" height="16" rx="3" fill="#8D5B3E" />
+            <rect x="474" y="230" width="72" height="5" rx="2.5" fill="#FFFFFF" opacity=".35" />
+            <g class="check" transform="translate(556 204)"><circle r="14" /><path d="M-6 0l4 5 8-9" /></g>
+          </g>
+
+          <!-- MICROONDE -->
+          <g class="tool" data-tool="microonde" tabindex="0" role="button" aria-label="Microonde">
+            <title>Microonde</title>
+            <rect x="430" y="62" width="160" height="76" rx="10" fill="#E5E5E5" stroke="#B8B8B8" stroke-width="3" />
+            <rect class="mw-window" x="442" y="74" width="100" height="52" rx="6" fill="#343A40" />
+            <g class="mw-plate"><ellipse cx="492" cy="116" rx="30" ry="5" fill="#6C757D" /><rect x="480" y="104" width="24" height="12" rx="4" fill="#FFB4A2" /></g>
+            <rect x="552" y="76" width="28" height="12" rx="3" fill="#90E0EF" />
+            <g fill="#ADB5BD"><circle cx="559" cy="100" r="4" /><circle cx="573" cy="100" r="4" /><circle cx="559" cy="114" r="4" /><circle cx="573" cy="114" r="4" /></g>
+            <g class="check" transform="translate(586 64)"><circle r="14" /><path d="M-6 0l4 5 8-9" /></g>
+          </g>
+
+          <!-- FRIGO (porta alla dispensa) -->
+          <g class="fridge" id="fridge" tabindex="0" role="button" aria-label="Apri il frigo e scegli gli ingredienti">
+            <title>Apri il frigo!</title>
+            <rect x="628" y="40" width="156" height="372" rx="16" fill="#F1FAEE" stroke="#A8DADC" stroke-width="4" />
+            <line x1="628" y1="170" x2="784" y2="170" stroke="#A8DADC" stroke-width="4" />
+            <rect x="646" y="100" width="10" height="50" rx="5" fill="#A8DADC" />
+            <rect x="646" y="190" width="10" height="70" rx="5" fill="#A8DADC" />
+            <circle cx="740" cy="84" r="10" fill="#FF6B4A" />
+            <rect x="712" y="110" width="40" height="30" rx="4" fill="#FFD166" transform="rotate(6 732 125)" />
+            <text x="733" y="130" font-size="12" text-anchor="middle" transform="rotate(6 732 125)">🛒</text>
+            <text class="fridge-cta" x="706" y="300" text-anchor="middle">Apri il frigo</text>
+            <text class="fridge-cta arrow" x="706" y="326" text-anchor="middle">👉 🥕🧀🥚</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="tool-chips" id="tool-chips" aria-label="Strumenti"></div>
+    </section>
+
+    <!-- STEP 2: DISPENSA -->
+    <section id="step-dispensa" class="step">
+      <div class="step-intro">
+        <h2>Cosa c'è in frigo e in dispensa? 🧺</h2>
+        <p>Sale, pepe, olio e acqua li diamo per scontati 😉</p>
+      </div>
+      <div class="pantry-tools">
+        <input type="search" id="ing-search" placeholder="🔎 Cerca un ingrediente…" autocomplete="off" />
+        <button class="btn ghost" id="btn-common">✨ Le basi</button>
+        <button class="btn ghost" id="btn-clear">🧹 Svuota</button>
+      </div>
+      <div id="ingredient-groups"></div>
+    </section>
+
+    <!-- STEP 3: RICETTE -->
+    <section id="step-ricette" class="step">
+      <div class="step-intro">
+        <h2>Ecco cosa puoi cucinare 🍽️</h2>
+        <p id="results-summary"></p>
+      </div>
+
+      <div class="filters">
+        <label class="filter">
+          <span>⏱ Tempo max: <b id="time-val"></b></span>
+          <input type="range" id="f-time" min="5" max="150" step="5" value="150" />
+        </label>
+        <label class="filter">
+          <span>🔥 Calorie max: <b id="kcal-val"></b></span>
+          <input type="range" id="f-kcal" min="100" max="800" step="20" value="800" />
+        </label>
+        <div class="filter">
+          <span>🛒 Ingredienti mancanti</span>
+          <div class="segmented" id="f-missing">
+            <button data-v="0" class="on">0</button><button data-v="1">≤1</button><button data-v="2">≤2</button>
+          </div>
+        </div>
+        <label class="filter">
+          <span>↕️ Ordina per</span>
+          <select id="f-sort">
+            <option value="match">Più adatte</option>
+            <option value="time">Più veloci</option>
+            <option value="kcal">Meno calorie</option>
+          </select>
+        </label>
+        <button class="btn primary" id="btn-surprise">🎲 Sorprendimi</button>
+      </div>
+
+      <div class="results" id="results"></div>
+    </section>
+  </main>
+
+  <footer class="bottom-bar">
+    <div class="summary" id="summary"></div>
+    <button class="btn primary" id="btn-next">Apri il frigo →</button>
+  </footer>
+
+  <dialog id="recipe-modal" aria-labelledby="modal-title">
+    <div id="modal-content"></div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/data-base.js"></script>
+  <script src="js/recipes-1.js"></script>
+  <script src="js/recipes-2.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

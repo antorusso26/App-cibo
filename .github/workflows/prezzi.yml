@@ -1,0 +1,39 @@
+name: Aggiorna prezzi
+
+# Ogni lunedì mattina (le offerte delle catene partono a inizio settimana),
+# più un avvio manuale dalla scheda Actions.
+on:
+  schedule:
+    - cron: "0 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  prezzi:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installa le dipendenze
+        run: pip install -r scraper/requirements.txt
+
+      - name: Scarica i prezzi
+        run: python scraper/run.py
+
+      - name: Salva data/prezzi.json se è cambiato
+        run: |
+          if [ -n "$(git status --porcelain data/prezzi.json)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/prezzi.json
+            git commit -m "Prezzi aggiornati al $(date +%d/%m/%Y)"
+            git push
+          else
+            echo "Nessuna variazione di prezzo."
+          fi

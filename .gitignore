@@ -1,2 +1,5 @@
 .DS_Store
 .claude/
+__pycache__/
+# cataloghi grezzi: si rigenerano con "python3 scraper/run.py --catalogo"
+data/catalogo-*.json

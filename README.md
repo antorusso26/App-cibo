@@ -24,6 +24,33 @@ poi apri http://localhost:5173
 
 Dopo aver pubblicato il repository su GitHub: **Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: `main` / `(root)` → Save**. Dopo un minuto circa l'app sarà su `https://<tuo-utente>.github.io/<nome-repo>/`.
 
+## Prezzi dei supermercati
+
+In `data/prezzi.json` ci sono i prezzi di ogni ingrediente nelle varie catene, raccolti dai loro siti pubblici:
+
+| Catena | Cosa otteniamo | Da dove |
+|---|---|---|
+| **Esselunga** | prezzi di listino e promozioni, catalogo nazionale | l'API che alimenta spesaonline.esselunga.it |
+| **Coop** | prezzi di listino e sconti | l'API GraphQL di easycoop.com (Coop Alleanza 3.0) |
+| **Lidl** | solo le offerte della settimana, con le date | l'API di ricerca di lidl.it (Lidl non vende alimentari online in Italia) |
+| **Conad** | stima, calcolata sulle altre catene | il sito Conad mostra i prezzi solo dopo un controllo anti-bot, che non aggiriamo |
+
+Per aggiornarli:
+
+```bash
+pip install -r scraper/requirements.txt && python3 scraper/run.py
+```
+
+Opzioni utili: `--solo coop` aggiorna una catena sola, `--catalogo` salva anche i cataloghi
+completi in `data/`, `--da-catalogo` rifà solo gli abbinamenti sui cataloghi già salvati
+(comodo quando si modificano le regole in `scraper/ingredienti.py`, senza riscaricare nulla).
+
+Su GitHub gira da solo ogni lunedì mattina ([.github/workflows/prezzi.yml](.github/workflows/prezzi.yml))
+e committa `data/prezzi.json` se i prezzi sono cambiati.
+
+Gli scraper sono gentili: una richiesta ogni 0,8 secondi, nessun login, nessun dato personale,
+solo pagine pubbliche. I prezzi sono indicativi e cambiano per negozio, città e periodo.
+
 ## Struttura
 
 ```
@@ -34,6 +61,14 @@ js/recipes-1.js     ricette (primi e secondi)
 js/recipes-2.js     ricette (uova, contorni, freddi, colazioni, dolci)
 js/app.js           logica: selezione, matching, filtri, dettaglio
 manifest.json       per aggiungerla alla schermata home del telefono
+data/prezzi.json    prezzi per ingrediente e catena + offerte della settimana
+scraper/            gli script che aggiornano i prezzi
+  common.py         sessione HTTP, quantità, normalizzazione
+  ingredienti.py    regole per riconoscere gli ingredienti nei cataloghi
+  esselunga.py      catalogo per categorie
+  coop.py           ricerca GraphQL su EasyCoop
+  lidl.py           offerte della settimana
+  run.py            mette tutto insieme e scrive data/prezzi.json
 ```
 
 ## Aggiungere una ricetta

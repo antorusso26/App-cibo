@@ -46,53 +46,79 @@
   }
 
   // ---------- Il piano ----------
-  function pianifica() {
-    const api = window.CosaCucino;
-    const dispensa = api.state.pantry;
-    const candidate = RECIPES
-      .map(r => api.evaluate(r))
-      .filter(m => m.toolsOk)
-      .map(m => m.r);
-
-    const carrello = new Map();   // ingrediente -> prodotto da comprare
-    const menu = [];
-    let totale = 0;
+  // Costo di un menù: le confezioni si comprano una volta sola, quindi una
+  // ricetta che riusa quello che è già nel carrello costa quasi zero in più.
+  function costoMenu(ricette) {
+    const dispensa = window.CosaCucino.state.pantry;
+    const carrello = new Map();
     const senzaPrezzo = new Set();
-
-    const daComprare = r => {
-      const nuovi = [];
+    const costoPer = new Map();
+    for (const r of ricette) {
+      let costo = 0;
       for (const i of r.ing) {
         if (i.opt) continue;
         const ids = Array.isArray(i.id) ? i.id : [i.id];
-        if (ids.some(x => dispensa.has(x))) continue;          // ce l'hai già
-        if (ids.some(x => carrello.has(x))) continue;          // già nel carrello
+        if (ids.some(x => dispensa.has(x))) continue;   // ce l'hai già in casa
+        if (ids.some(x => carrello.has(x))) continue;   // già nel carrello
         const p = prezzoIngrediente(i.id, scelte.catena);
         if (!p) { senzaPrezzo.add(ids[0]); continue; }
-        nuovi.push({ ...p, qtaRicetta: i.q });
+        carrello.set(p.ingId, { ...p, qtaRicetta: i.q });
+        costo += p.prezzo;
       }
-      return nuovi;
-    };
+      costoPer.set(r.id, costo);
+    }
+    const totale = [...carrello.values()].reduce((s, p) => s + p.prezzo, 0);
+    return { carrello, totale, costoPer, senzaPrezzo: [...senzaPrezzo] };
+  }
 
+  function pianifica() {
+    const api = window.CosaCucino;
+    const candidate = RECIPES.map(r => api.evaluate(r)).filter(m => m.toolsOk).map(m => m.r);
+    if (!candidate.length) return { menu: [], carrello: new Map(), totale: 0, senzaPrezzo: [] };
+
+    // 1) parti dal menù più economico che rispetta il numero di pasti
+    let menu = [];
     while (menu.length < scelte.pasti) {
       let migliore = null;
       for (const r of candidate) {
-        if (menu.some(m => m.r.id === r.id)) continue;
-        const nuovi = daComprare(r);
-        const costo = nuovi.reduce((s, p) => s + p.prezzo, 0);
-        if (totale + costo > scelte.max) continue;
-        // preferiamo le ricette che costano poco a porzione e che riusano
-        // quello che c'è già nel carrello
+        if (menu.includes(r)) continue;
+        const prova = costoMenu([...menu, r]);
+        if (prova.totale > scelte.max) continue;
         const porzioni = Math.max(1, Math.min(r.servings, scelte.persone));
-        const punteggio = (costo + 0.2) / porzioni;
-        if (!migliore || punteggio < migliore.punteggio) migliore = { r, nuovi, costo, punteggio };
+        const punteggio = (prova.totale + 0.2) / porzioni;
+        if (!migliore || punteggio < migliore.punteggio) migliore = { r, punteggio };
       }
       if (!migliore) break;
-      migliore.nuovi.forEach(p => carrello.set(p.ingId, p));
-      totale += migliore.costo;
-      menu.push({ r: migliore.r, costo: migliore.costo });
+      menu.push(migliore.r);
     }
 
-    return { menu, carrello, totale, senzaPrezzo: [...senzaPrezzo] };
+    // 2) se avanza budget, scambia qualche piatto con uno più ricco finché
+    //    la spesa entra nel range richiesto (obiettivo: metà strada)
+    const obiettivo = (scelte.min + scelte.max) / 2;
+    let stato = costoMenu(menu);
+    for (let giro = 0; giro < 12 && stato.totale < scelte.min; giro++) {
+      let migliore = null;
+      for (let i = 0; i < menu.length; i++) {
+        for (const r of candidate) {
+          if (menu.includes(r)) continue;
+          const prova = [...menu]; prova[i] = r;
+          const c = costoMenu(prova);
+          if (c.totale > scelte.max) continue;
+          const distanza = Math.abs(c.totale - obiettivo);
+          if (!migliore || distanza < migliore.distanza) migliore = { prova, c, distanza };
+        }
+      }
+      if (!migliore || migliore.distanza >= Math.abs(stato.totale - obiettivo)) break;
+      menu = migliore.prova;
+      stato = migliore.c;
+    }
+
+    return {
+      menu: menu.map(r => ({ r, costo: stato.costoPer.get(r.id) || 0 })),
+      carrello: stato.carrello,
+      totale: stato.totale,
+      senzaPrezzo: stato.senzaPrezzo,
+    };
   }
 
   // ---------- Interfaccia ----------

@@ -298,3 +298,62 @@ dialog[open] { animation-name: dialogPop; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* ---------- Spesa ---------- */
+.spesa-setup {
+  background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 18px; display: grid; gap: 18px; margin-bottom: 20px;
+}
+.campo { display: flex; flex-direction: column; gap: 8px; }
+.campo-riga { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.campo-titolo { font-weight: 800; font-size: 14px; }
+.campo input[type=number] {
+  padding: 11px 14px; border-radius: 12px; border: 2px solid var(--line); background: #fff; width: 100%;
+}
+.campo input[type=number]:focus { outline: none; border-color: var(--tomato); }
+.range-doppio { display: grid; gap: 8px; }
+.range-doppio label { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 13px; color: var(--muted); }
+.range-doppio input[type=range] { flex: 1; accent-color: var(--tomato); }
+
+.catene { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+.catena {
+  border: 2px solid var(--line); background: #fff; border-radius: 14px; padding: 12px 10px;
+  cursor: pointer; display: flex; flex-direction: column; gap: 2px; align-items: flex-start;
+  transition: transform .12s, border-color .2s, background .2s;
+}
+.catena:hover { transform: translateY(-2px); border-color: #E6CDB0; }
+.catena.on { border-color: var(--basil); background: var(--basil-soft); }
+.catena b { font-family: var(--font-title); font-size: 17px; }
+.catena small { color: var(--muted); font-weight: 700; font-size: 12px; }
+.btn.grande { padding: 15px; font-size: 17px; }
+
+.totale-box {
+  background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 18px; display: grid; gap: 10px; border-left: 6px solid var(--basil); margin-bottom: 16px;
+}
+.totale-box.sotto { border-left-color: var(--yolk); }
+.totale-cifra { font-family: var(--font-title); font-size: 34px; line-height: 1; }
+.totale-nota { font-size: 13px; color: var(--muted); font-weight: 700; }
+.barra-budget { position: relative; height: 12px; background: var(--line); border-radius: 99px; overflow: hidden; }
+.barra-budget > i { display: block; height: 100%; background: linear-gradient(90deg, var(--yolk), var(--basil)); }
+.barra-budget .tacca { position: absolute; top: -3px; width: 3px; height: 18px; background: var(--ink); opacity: .35; border-radius: 2px; }
+
+.offerte-box {
+  background: var(--yolk-soft); border-radius: 14px; padding: 12px 16px; font-size: 14px;
+  font-weight: 600; margin-bottom: 18px;
+}
+.sezione { font-size: 20px; margin: 22px 0 12px; }
+.sezione small { font-family: var(--font-body); font-weight: 700; color: var(--muted); font-size: 13px; }
+.stat.spesa { background: var(--basil-soft); color: #1F6B43; }
+
+.lista-spesa { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+.lista-spesa li {
+  display: flex; align-items: center; gap: 10px; background: var(--card);
+  padding: 11px 14px; border-radius: 12px; box-shadow: var(--shadow);
+}
+.lista-spesa label { display: flex; align-items: center; gap: 10px; flex: 1; cursor: pointer; }
+.lista-spesa input[type=checkbox] { width: 20px; height: 20px; accent-color: var(--basil); flex: none; }
+.lista-spesa input:checked + .emo + .prodotto { text-decoration: line-through; opacity: .5; }
+.lista-spesa .prezzo { font-weight: 800; white-space: nowrap; }
+.badge-offerta { background: var(--tomato); color: #fff; font-size: 11px; font-weight: 800; padding: 2px 7px; border-radius: 99px; margin-left: 6px; }
+.badge-stima { background: var(--line); color: var(--muted); font-size: 11px; font-weight: 800; padding: 2px 7px; border-radius: 99px; margin-left: 6px; }

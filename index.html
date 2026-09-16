@@ -25,6 +25,7 @@
       <button class="step-btn active" data-step="cucina"><span>1</span> Cucina</button>
       <button class="step-btn" data-step="dispensa"><span>2</span> Dispensa</button>
       <button class="step-btn" data-step="ricette"><span>3</span> Ricette</button>
+      <button class="step-btn" data-step="spesa"><span>4</span> Spesa</button>
     </nav>
   </header>
 
@@ -270,6 +271,44 @@
 
       <div class="results" id="results"></div>
     </section>
+
+    <!-- STEP 4: SPESA -->
+    <section id="step-spesa" class="step">
+      <div class="step-intro">
+        <h2>Quanto vuoi spendere? 🛒</h2>
+        <p>Scegli il supermercato e il budget: ti preparo menù e lista della spesa.</p>
+      </div>
+
+      <div class="spesa-setup">
+        <div class="campo">
+          <span class="campo-titolo">🏬 Dove fai la spesa</span>
+          <div class="catene" id="catene"></div>
+        </div>
+
+        <div class="campo">
+          <span class="campo-titolo">💶 Budget: <b id="budget-label">15 € – 35 €</b></span>
+          <div class="range-doppio">
+            <label>da <input type="range" id="budget-min" min="5" max="150" step="5" value="15" /></label>
+            <label>a <input type="range" id="budget-max" min="5" max="150" step="5" value="35" /></label>
+          </div>
+        </div>
+
+        <div class="campo-riga">
+          <label class="campo">
+            <span class="campo-titolo">👥 Persone</span>
+            <input type="number" id="persone" min="1" max="8" value="2" />
+          </label>
+          <label class="campo">
+            <span class="campo-titolo">🍽️ Pasti da preparare</span>
+            <input type="number" id="pasti" min="1" max="14" value="5" />
+          </label>
+        </div>
+
+        <button class="btn primary grande" id="btn-piano">Fammi la lista della spesa 🧾</button>
+      </div>
+
+      <div id="piano"></div>
+    </section>
   </main>
 
   <footer class="bottom-bar">
@@ -287,5 +326,6 @@
   <script src="js/recipes-1.js"></script>
   <script src="js/recipes-2.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/spesa.js"></script>
 </body>
 </html>

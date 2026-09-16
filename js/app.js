@@ -4,7 +4,7 @@
 
   const ING = Object.fromEntries(INGREDIENTS.map(i => [i.id, i]));
   const TOOL = Object.fromEntries(TOOLS.map(t => [t.id, t]));
-  const STEPS = ['cucina', 'dispensa', 'ricette'];
+  const STEPS = ['cucina', 'dispensa', 'ricette', 'spesa'];
   const STORE_KEY = 'cosa-cucino-v1';
 
   const state = {
@@ -59,8 +59,11 @@
     $$('.step').forEach(s => s.classList.toggle('active', s.id === `step-${step}`));
     $$('.step-btn').forEach(b => b.classList.toggle('active', b.dataset.step === step));
     const next = $('#btn-next');
-    next.textContent = step === 'cucina' ? 'Apri il frigo →' : step === 'dispensa' ? 'Trova ricette 🍽️' : '← Ingredienti';
+    next.textContent = step === 'cucina' ? 'Apri il frigo →'
+      : step === 'dispensa' ? 'Trova ricette 🍽️'
+      : step === 'ricette' ? 'Fai la spesa 🛒' : '← Ingredienti';
     if (step === 'ricette') renderResults();
+    if (step === 'spesa' && window.SPESA) window.SPESA.mostra();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -319,9 +322,11 @@
     $$('.step-btn').forEach(b => b.addEventListener('click', () => goTo(b.dataset.step)));
     $('#btn-next').addEventListener('click', () => {
       const i = STEPS.indexOf(state.step);
-      goTo(state.step === 'ricette' ? 'dispensa' : STEPS[i + 1]);
+      goTo(state.step === 'spesa' ? 'dispensa' : STEPS[i + 1]);
     });
     updateSummary();
+    // Quello che serve alla schermata Spesa (js/spesa.js)
+    window.CosaCucino = { state, evaluate, openRecipe, toast, goTo, fmtTime, ingName, ingEmoji, hasIng };
     if (state.tools.size) say('Bentornato! Ho ricordato i tuoi strumenti 😄');
   }
 

@@ -25,6 +25,9 @@
   }
 
   function prezzoDi(ingId, catena) {
+    // se hai scansionato uno scontrino, quel prezzo è il più affidabile
+    const mio = window.SCONTRINI && window.SCONTRINI.prezzoUtente(ingId);
+    if (mio) return { ...mio, catena: mio.catena || catena, esatto: true };
     const riga = DATI && DATI.ingredienti[ingId];
     if (!riga) return null;
     if (riga[catena]) return { ...riga[catena], catena, esatto: true };
@@ -228,6 +231,7 @@
           <label><input type="checkbox" /> <span class="emo">${api.ingEmoji(p.ingId)}</span>
             <span class="prodotto">${escapeHtml(p.nome)}
               ${p.inOfferta ? `<span class="badge-offerta">−${p.sconto}%</span>` : ''}
+              ${p.daScontrino ? '<span class="badge-scontrino">🧾 dal tuo scontrino</span>' : ''}
               ${p.esatto ? '' : '<span class="badge-stima">prezzo di un\'altra catena</span>'}
               ${p.stima ? '<span class="badge-stima">stima</span>' : ''}
             </span></label>
@@ -279,7 +283,7 @@
     });
   }
 
-  window.SPESA = { mostra };
+  window.SPESA = { mostra, aggiorna: () => { if ($('#piano').innerHTML.trim()) renderPiano(); } };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 })();

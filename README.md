@@ -24,6 +24,18 @@ poi apri http://localhost:5173
 
 Dopo aver pubblicato il repository su GitHub: **Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: `main` / `(root)` → Save**. Dopo un minuto circa l'app sarà su `https://<tuo-utente>.github.io/<nome-repo>/`.
 
+## Scanner scontrini
+
+Nella schermata Spesa c'è **📷 Scansiona uno scontrino**: fotografi lo scontrino e l'app ne
+ricava i prezzi. L'OCR ([Tesseract.js](https://tesseract.projectnaptha.com/)) gira **dentro al
+browser** in WebAssembly: la foto non viene caricata da nessuna parte e non serve nessuna chiave
+API. Alla prima scansione il motore OCR (qualche MB) viene scaricato dalla CDN, poi resta in cache.
+
+L'app riconosce la catena, le righe con prezzo e a quale ingrediente corrispondono (i nomi sugli
+scontrini sono abbreviati: "PASSATA POMODORO", "PROSC COTTO", "MOZZ"); tu correggi quello che
+serve e salvi. I prezzi dei tuoi scontrini hanno la precedenza su quelli raccolti dai siti e
+compaiono nella lista della spesa con l'etichetta "dal tuo scontrino".
+
 ## Prezzi dei supermercati
 
 In `data/prezzi.json` ci sono i prezzi di ogni ingrediente nelle varie catene, raccolti dai loro siti pubblici:
@@ -60,6 +72,8 @@ js/data-base.js     strumenti e ingredienti
 js/recipes-1.js     ricette (primi e secondi)
 js/recipes-2.js     ricette (uova, contorni, freddi, colazioni, dolci)
 js/app.js           logica: selezione, matching, filtri, dettaglio
+js/spesa.js         supermercato, budget, menù e lista della spesa
+js/scontrino.js     scanner scontrini (OCR nel browser)
 manifest.json       per aggiungerla alla schermata home del telefono
 data/prezzi.json    prezzi per ingrediente e catena + offerte della settimana
 scraper/            gli script che aggiornano i prezzi

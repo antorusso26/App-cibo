@@ -304,7 +304,10 @@
           </label>
         </div>
 
-        <button class="btn primary grande" id="btn-piano">Fammi la lista della spesa 🧾</button>
+        <div class="bottoni-spesa">
+          <button class="btn primary grande" id="btn-piano">Fammi la lista della spesa 🧾</button>
+          <button class="btn ghost grande" data-apri-scontrino>📷 Scansiona uno scontrino</button>
+        </div>
       </div>
 
       <div id="piano"></div>
@@ -320,6 +323,15 @@
     <div id="modal-content"></div>
   </dialog>
 
+  <dialog id="scontrino-modal" aria-labelledby="scontrino-titolo">
+    <div class="modal-head">
+      <button class="modal-close" id="scontrino-chiudi" aria-label="Chiudi">✕</button>
+      <div class="big-emoji">🧾</div>
+      <h2 id="scontrino-titolo">Scanner scontrini</h2>
+    </div>
+    <div class="modal-body" id="scontrino-corpo"></div>
+  </dialog>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="js/data-base.js"></script>
@@ -327,5 +339,6 @@
   <script src="js/recipes-2.js"></script>
   <script src="js/app.js"></script>
   <script src="js/spesa.js"></script>
+  <script src="js/scontrino.js"></script>
 </body>
 </html>

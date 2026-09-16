@@ -326,7 +326,8 @@
     });
     updateSummary();
     // Quello che serve alla schermata Spesa (js/spesa.js)
-    window.CosaCucino = { state, evaluate, openRecipe, toast, goTo, fmtTime, ingName, ingEmoji, hasIng };
+    window.CosaCucino = { state, evaluate, openRecipe, toast, goTo, fmtTime, ingName, ingEmoji, hasIng,
+      salvaStato() { save(); renderIngredients(); updateSummary(); } };
     if (state.tools.size) say('Bentornato! Ho ricordato i tuoi strumenti 😄');
   }
 

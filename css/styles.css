@@ -357,3 +357,29 @@ dialog[open] { animation-name: dialogPop; }
 .lista-spesa .prezzo { font-weight: 800; white-space: nowrap; }
 .badge-offerta { background: var(--tomato); color: #fff; font-size: 11px; font-weight: 800; padding: 2px 7px; border-radius: 99px; margin-left: 6px; }
 .badge-stima { background: var(--line); color: var(--muted); font-size: 11px; font-weight: 800; padding: 2px 7px; border-radius: 99px; margin-left: 6px; }
+
+/* ---------- Scanner scontrini ---------- */
+.bottoni-spesa { display: grid; gap: 10px; }
+.carica-foto {
+  display: block; text-align: center; cursor: pointer; margin-top: 14px;
+  border: 3px dashed var(--line); border-radius: 18px; padding: 28px 16px;
+  font-weight: 800; color: var(--tomato); background: var(--bg);
+  transition: border-color .2s, background .2s;
+}
+.carica-foto:hover { border-color: var(--tomato); background: #fff; }
+.ocr-stato { text-align: center; padding: 10px 0; }
+.ocr-emoji { font-size: 48px; animation: pulsa 1.2s ease-in-out infinite; }
+@keyframes pulsa { 50% { transform: scale(1.12); } }
+.barra-ocr { height: 10px; background: var(--line); border-radius: 99px; overflow: hidden; margin: 10px 0; }
+.barra-ocr > i { display: block; height: 100%; background: linear-gradient(90deg, var(--yolk), var(--basil)); transition: width .3s; }
+.scontrino-esito { font-size: 14px; color: var(--muted); }
+.scontrino-vuoto { text-align: center; padding: 16px 0; }
+.righe-scontrino { list-style: none; padding: 0; margin: 0 0 16px; display: grid; gap: 8px; }
+.righe-scontrino li { background: var(--bg); border-radius: 12px; padding: 10px 12px; display: grid; gap: 6px; }
+.riga-testa { display: flex; gap: 10px; align-items: baseline; }
+.riga-desc { flex: 1; font-weight: 700; font-size: 14px; word-break: break-word; }
+.riga-prezzo { font-weight: 800; white-space: nowrap; }
+.riga-select { padding: 8px 10px; border-radius: 10px; border: 2px solid var(--line); background: #fff; width: 100%; }
+.riga-check { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 14px; margin-bottom: 14px; }
+.riga-check input { width: 20px; height: 20px; accent-color: var(--basil); }
+.badge-scontrino { background: var(--basil-soft); color: #1F6B43; font-size: 11px; font-weight: 800; padding: 2px 7px; border-radius: 99px; margin-left: 6px; }
